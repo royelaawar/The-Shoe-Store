@@ -35,6 +35,9 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Menu, Transition } from '@headlessui/react'
 import { XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, FunnelIcon, MinusIcon, PlusIcon, Squares2X2Icon } from '@heroicons/react/20/solid'
+import Shoe from './Shoe'
+
+
 
 const sortOptions = [
   { name: 'Most Popular', href: '#', current: true },
@@ -42,6 +45,44 @@ const sortOptions = [
   { name: 'Newest', href: '#', current: false },
   { name: 'Price: Low to High', href: '#', current: false },
   { name: 'Price: High to Low', href: '#', current: false },
+]
+
+const shoes = [
+  {
+    _id: "100001",
+    img: "https://image.goat.com/transform/v1/attachments/product_template_pictures/images/048/340/054/original/712867_00.png.png?action=crop&width=500",
+    shoeName: "Nike Air Force 1",
+    price: "90.00",
+    category: "Basketball",
+  },
+  {
+    _id: "100002",
+    img: "https://image.goat.com/transform/v1/attachments/product_template_additional_pictures/images/060/049/951/original/804464_01.jpg.jpeg?action=crop&width=900",
+    shoeName: "Nike Free Run",
+    price: "76.00",
+    category: "Running",
+  },
+  {
+    _id: "100003",
+    img: "https://image.goat.com/transform/v1/attachments/product_template_additional_pictures/images/088/205/438/original/1179930_01.jpg.jpeg?action=crop&width=900",
+    shoeName: "Vans Old Skool",
+    price: "59.00",
+    category: "Casual",
+  },
+  {
+    _id: "100004",
+    img: "https://image.goat.com/transform/v1/attachments/product_template_pictures/images/094/121/931/original/ID2030.png.png?action=crop&width=900",
+    shoeName: "Adidas Stan Smith",
+    price: "108.00",
+    category: "Tennis",
+  },
+  {
+    _id: "100005",
+    img: "https://image.goat.com/transform/v1/attachments/product_template_additional_pictures/images/082/754/093/original/1081516_01.jpg.jpeg?action=crop&width=900",
+    shoeName: "Air Jordan V",
+    price: "210.00",
+    category: "Retro",
+  },
 ]
 // const subCategories = [
 //   { name: 'Totes', href: '#' },
@@ -93,7 +134,7 @@ const filters = [
   //   "Trail Running Shoes",
   //   "Eco-Friendly Sneakers",
 
-  
+
   {
     id: 'price',
     name: 'Price',
@@ -341,7 +382,22 @@ export default function Home() {
               </form>
 
               {/* Product grid */}
-              <div className="lg:col-span-3">{/* Your content */}</div>
+              <div className="lg:col-span-3">
+                <div className="container mx-auto my-auto">
+                  <div className="grid md:grid-cols-2 sm:grid-cols-1 lg:grid-cols-4 gap-4">
+                    {shoes.map((shoe, index) => (
+                      <Shoe
+                        key={index}
+                        _id={shoe._id}
+                        img={shoe.img}
+                        shoeName={shoe.shoeName}
+                        price={shoe.price}
+                        category={shoe.category}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </section>
         </main>
