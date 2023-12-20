@@ -250,7 +250,7 @@ if __name__ == "__main__":
         for _ in range(150):
             order = rc(orders_list)
             product = rc(products_list)
-            oi = Order_Item(quantity=randint(1, 3), order=order, product=product)
+            oi = Order_Item(quantity=randint(1, 3), order=order, product=product, total_price = oi.price * oi.quantity)
             
 
             order_items_list.append(oi)

@@ -13,6 +13,7 @@ from config import db
 ##USER##
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users_table'
+    serialize_rules = ('-orders.user', '-comments.user')
     
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False) 
@@ -35,6 +36,7 @@ class User(db.Model, SerializerMixin):
 ##COMMENT##
 class Comment(db.Model, SerializerMixin):
     __tablename__ = 'comments_table'
+    serialize_rules = ('-user.comments', '-product.comments')
     
     id = db.Column(db.Integer, primary_key = True)
     content = db.Column(db.String, nullable = False)
@@ -54,6 +56,7 @@ class Comment(db.Model, SerializerMixin):
 ##PRODUCT##    
 class Product(db.Model, SerializerMixin):
     __tablename__ = 'products_table'
+    serialize_rules = ('-comments.product', '-order_items.product')
     
     id = db.Column(db.Integer, primary_key = True)
     ##product details
@@ -89,11 +92,13 @@ class Product(db.Model, SerializerMixin):
 ##ORDER_ITEM##    
 class Order_Item(db.Model, SerializerMixin):
     __tablename__ = 'order_item_table'
+    serialize_rules = ('-order.order_items', '-product.order_items')
 
     id = db.Column(db.Integer, primary_key = True)
     quantity = db.Column(db.Integer, nullable = False)
     product_id = db.Column(db.Integer, db.ForeignKey('products_table.id'), nullable = False)
     order_id = db.Column(db.Integer, db.ForeignKey('orders_table.id'), nullable=False) 
+    # total_price = db.Column(db.Float, nullable = False)
 
     #relationships
     price = association_proxy('product', 'price')
@@ -113,6 +118,7 @@ class Order_Item(db.Model, SerializerMixin):
 ##ORDER##
 class Order(db.Model,SerializerMixin):
     __tablename__ = 'orders_table'
+    serialize_rules = ('-user.order', )
     
     id = db.Column(db.Integer, primary_key = True)
     address = db.Column(db.String, nullable = False)
