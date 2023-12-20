@@ -118,7 +118,7 @@ class Order_Item(db.Model, SerializerMixin):
 ##ORDER##
 class Order(db.Model,SerializerMixin):
     __tablename__ = 'orders_table'
-    serialize_rules = ('-user.order', )
+    serialize_rules = ('-user.order',)
     
     id = db.Column(db.Integer, primary_key = True)
     address = db.Column(db.String, nullable = False)
