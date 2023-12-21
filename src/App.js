@@ -17,19 +17,31 @@ function App() {
 
   const [shoes, setShoes] = useState([])
   const [user, setUser] = useState([])
-
+  const [cartItems, setCartItems] = useState([]);
+  
+  const addToCart = (newItem) => {
+    setCartItems((prevItems) => [...prevItems, newItem]);
+  };
+  
   //maintains current user session
-  useEffect(() => { 
-    fetch(URL + "/check_session")
-      .then((res) => {  
-        if (res.ok) {
-          res.json().then((user) => setUser(user));
-        }
-        else{
-          res.json().then((error) => console.log(error));          
-        }      
+  const URL = "http://127.0.0.1:5555/api";
+
+useEffect(() => {
+  fetch(URL + '/products')
+    .then(res => {
+      if (res.ok) {
+        return res.json();
+      } else {
+        throw new Error('Failed to fetch products');
+      }
+    })
+    .then(shoes => {
+      setShoes(shoes);
+    })
+    .catch(error => {
+      console.error("Error fetching products:", error);
     });
-  }, []);
+}, []); 
 
   //gets products/sneakers data for home/main page
   useEffect(() => {
@@ -95,6 +107,7 @@ function handleLogin() {
     fetch(URL + '/logout', { method: "DELETE" })
   }
 
+  
 
   return (
     <Router>
@@ -103,10 +116,11 @@ function handleLogin() {
             <div className='content'>
               <Routes>
 
-                <Route path="/" element={<Home shoes={shoes}/>} />
+                <Route path="/" element={<Home shoes={shoes} addToCart={addToCart}/>} />
                 <Route path="/shoeProfile" element={<shoeProfile />} />
                 <Route path="/userProfile" element={<User user={user} logout={logout} handleLogin={handleLogin} handleSignup={handleSignup}/>} />
-                <Route path="/cart" element={<Cart />} />
+                <Route path="/cart" element={<Cart cartItems={cartItems} />} />
+
 
               </Routes>
             </div>
