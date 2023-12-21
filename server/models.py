@@ -84,11 +84,7 @@ class Product(db.Model, SerializerMixin):
     def __repr__(self):
         return f'<Product {self.id}/{self.name}/{self.brand_name}/{self.category}/{self.description}/{self.price}>'
     
-    def get_sizes(self):
-        pass
-        # all_sizes = []
-        # if size not in sizes:
-        #     pass 
+
     
 ##ORDER_ITEM##    
 class Order_Item(db.Model, SerializerMixin):
@@ -136,14 +132,6 @@ class Order(db.Model,SerializerMixin):
     order_items = db.relationship('Order_Item', back_populates = 'order', cascade = 'all, delete-orphan')
     
 
-    
-    def order_total_price(self):
-        order_items = self.order_items
-        total_price = sum([order.item_total_price() for order in order_items])
-        
-        
-        pass
-    #     sum([order['total_price'] for order in self.order_items])
     
     def __repr__(self):
         return f'<Comment {self.id}/{self.address}/{self.user_name}>'
