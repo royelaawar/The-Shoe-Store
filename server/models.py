@@ -17,18 +17,19 @@ class User(db.Model, SerializerMixin):
     __tablename__ = 'users_table'
     serialize_rules = ('-orders.user', '-comments.user', '-_password_hash')
     
+    #properties
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False) 
     user_name = db.Column(db.String(), nullable = False, unique = True) 
     _password_hash = db.Column(db.String)
     d_o_b = db.Column(db.String)
 
-    
+    #relationships/proxies
     products = association_proxy('orders','order_items.product_id')
-    #relationships
     orders = db.relationship('Order', back_populates = 'user')
     comments = db.relationship('Comment', back_populates = 'user', cascade = 'all, delete-orphan')
 
+    ##password authentication decorators:
     @hybrid_property
     def password_hash(self):
         raise AttributeError("Password hash is inacessible!")
@@ -41,6 +42,7 @@ class User(db.Model, SerializerMixin):
     def authenticate(self, password):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode('utf-8'))
+
 
 ##COMMENT##
 class Comment(db.Model, SerializerMixin):

@@ -27,7 +27,7 @@ def current_user():
 ##serialization rules for to_dicts to work (if you get recursion errors just modify these) ##
 product_rules = ("-comments","-order_items","-meta")
 order_rules = ("-order_items","-user")
-user_rules = ("-comments","-orders","-password")
+user_rules = ("-comments","-orders")
 comment_rules = ("-user","-product")
 
 
@@ -37,8 +37,12 @@ comment_rules = ("-user","-product")
 def create_user():
     try:
         data = request.json
-        hashed_password = bcrypt.generate_password_hash(data.get("password")).decode('utf-8')
-        new_user = User(name=data.get("name"), user_name=data.get("user_name"), password=hashed_password, d_o_b=data.get("d_o_b"))
+        new_user = User(
+            name=data.get("name"), 
+            user_name=data.get("user_name"), 
+            d_o_b=data.get("d_o_b")
+            )
+        new_user.password_hash = data['password']
         db.session.add(new_user)
         db.session.commit()
         session["user_id"] = new_user.id

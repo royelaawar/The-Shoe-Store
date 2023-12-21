@@ -183,10 +183,10 @@ if __name__ == "__main__":
             u = User(
                 name=fake.name(),
                 user_name=fake.profile()["username"],
-                password=generate_fake_password(),
                 d_o_b=generate_fake_birthday()
                 
             )
+            u.password_hash = generate_fake_password()
             users_list.append(u)
         print(u)
         db.session.add_all(users_list)
