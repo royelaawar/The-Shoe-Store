@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 
-const ShoeProfile = () => {
+const ShoeProfile = ({ addToCart }) => {
     const shoes = [
         { 
+            id: 1, // Make sure each shoe has a unique identifier
             name: "Air Force 1", 
             content: [
                 { type: 'image', url: 'https://static.footshop.com/img/p/1/3/3/7/9/13379-full_product.jpg' },
@@ -11,20 +12,21 @@ const ShoeProfile = () => {
                 { type: 'video', url: 'https://www.youtube.com/embed/IqgBn7sT6vI' }
             ] 
         },
-       
+        // ... more shoes ...
     ];
-
-    console.log(shoes)
 
     const [currentShoeIndex, setCurrentShoeIndex] = useState(0);
     const [currentContent, setCurrentContent] = useState(shoes[0].content[0]);
-
 
     const selectContent = (content) => {
         setCurrentContent(content);
     };
 
     const currentShoe = shoes[currentShoeIndex];
+
+    const handleAddToCart = () => {
+        addToCart(currentShoe);
+    };
 
     return (
         <div className="shoe-container">
@@ -69,6 +71,7 @@ const ShoeProfile = () => {
                         className="selected-video"
                     ></iframe>
                 )}
+                <button onClick={handleAddToCart}>Add to Cart</button>
             </div>
         </div>
     );
