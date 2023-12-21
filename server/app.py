@@ -4,14 +4,12 @@
 
 # Remote library imports
 from flask import make_response, request, session, jsonify 
-from flask_bcrypt import Bcrypt
 from flask_restful import Resource
-from sqlalchemy.exc import IntegrityError
 
 
 # Local imports
 from models import db, User, Product, Comment, Order_Item, Order
-from config import app, api, bcrypt
+from config import app, api
 
 ## url prefix for flask endpoints
 URL_PREFIX = '/api'
