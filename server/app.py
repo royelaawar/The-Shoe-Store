@@ -104,16 +104,17 @@ def get_user_orders():
     orders = [o.to_dict(rules = order_rules) for o in current_user().orders]
     return make_response(orders, 201)
 
-## potential method for shoeprofile component, although not sure if necessary
+## user session - cart endpoint; needs work!!
+@app.get(URL_PREFIX + '/cart')
+def get_cart():
+    cart_order = [item.to_dict(rules = order_item_rules) for item in Order_Item.query.filter(Order_Item.order.user == current_user()).all()]
+    return make_response(cart_order, 201)
+
+
+## potential method for shoeprofile component, although not sure if necessary b/c can also use props/outlet context
 @app.get(URL_PREFIX + '/shoeProfile')
 def get_shoe_profile():
     pass
-
-
-@app.get(URL_PREFIX + '/cart')
-def get_cart():
-    pass
-
 
 ## FLASK MODEL ENDPOINTS: ##
 # STANDARD HTTP REQUESTS (get/patch/post) ##
@@ -201,6 +202,7 @@ def get_user_by_id(id):
 def get_all_order_items():
     order_item = [o.to_dict(rules=order_item_rules) for o in Order_Item.query.all()]
     return make_response(order_item, 201)
+
 
 
 ## error handlers: catch errors thrown from @validates and other exceptions
