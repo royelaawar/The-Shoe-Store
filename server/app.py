@@ -115,10 +115,14 @@ def get_cart():
     pass
 
 
-## MODEL ENDPOINTS: BASIC db ROUTES (get/patch/post) ##
+## FLASK MODEL ENDPOINTS: ##
+# STANDARD HTTP REQUESTS (get/patch/post) ##
+
+## index
 @app.route(URL_PREFIX + '/')
 def home():
     return  "The-Shoe-Store API Index"
+
 
 ## PRODUCT rts ## 
 @app.get(URL_PREFIX + '/products')
@@ -177,6 +181,7 @@ def patch_order(id):
     except Exception as e:
         return {"error": f"Could not update order with id {id}; {str(e)}"},404
 
+
 ## USER rts ## 
 @app.get(URL_PREFIX + '/users')
 def get_users():
@@ -191,7 +196,7 @@ def get_user_by_id(id):
     return make_response(user.to_dict(rules = user_rules), 201)
 
 
-## ORDER ITEMS rts
+## ORDER ITEMS rts ##
 @app.get(URL_PREFIX + '/order_items_all')
 def get_all_order_items():
     order_item = [o.to_dict(rules=order_item_rules) for o in Order_Item.query.all()]
