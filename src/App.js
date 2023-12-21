@@ -31,7 +31,7 @@ function App() {
     });
   }, []);
 
-  //gets products/sneakers data for main page
+  //gets products/sneakers data for home/main page
   useEffect(() => {
     fetch(URL + '/products')
     .then(res => {
@@ -43,7 +43,58 @@ function App() {
     });
   }, []); 
 
- 
+
+// handle signup function (needs formdata set up for input) //
+function handleSignup() {
+  fetch(URL + '/users', {
+    method: 'POST',
+    headers: POST_HEADERS,
+    body: JSON.stringify()
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json(); 
+    } else {
+      throw new Error('Invalid sign up'); 
+    }
+  })
+  .then(data => {
+    setUser(data); 
+  })
+  .catch(error => {
+    alert(error.message); 
+  });
+}
+
+// handle login function (needs formdata set up for input) //
+function handleLogin() {
+  fetch(URL + '/login', {
+    method: 'POST',
+    headers: POST_HEADERS,
+    body: JSON.stringify()
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json(); 
+    } else {
+      throw new Error('Invalid login'); 
+    }
+  })
+  .then(data => {
+    setUser(data); // Update state with the user data
+  })
+  .catch(error => {
+    alert(error.message); // Alert if there's an error (e.g., invalid login)
+  });
+}
+
+
+  // logs out current user/resets user useState() //
+  function logout() {
+    setUser(null)
+    fetch(URL + '/logout', { method: "DELETE" })
+  }
+
 
   return (
     <Router>
@@ -54,7 +105,7 @@ function App() {
 
                 <Route path="/" element={<Home shoes={shoes}/>} />
                 <Route path="/shoeProfile" element={<shoeProfile />} />
-                <Route path="/userProfile" element={<User user={user}/>} />
+                <Route path="/userProfile" element={<User user={user} logout={logout} handleLogin={handleLogin} handleSignup={handleSignup}/>} />
                 <Route path="/cart" element={<Cart />} />
 
               </Routes>

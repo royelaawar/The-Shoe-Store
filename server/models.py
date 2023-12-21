@@ -3,24 +3,24 @@ import re
 ##remote library imports
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
+from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy_serializer import SerializerMixin
-from uuid import uuid4
+
 ##local imports
 from config import db, bcrypt
 
-def get_uuid():
-    return uuid4().hex
+
 
 
 ##USER##
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users_table'
-    serialize_rules = ('-orders.user', '-comments.user')
+    serialize_rules = ('-orders.user', '-comments.user', '-_password_hash')
     
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False) 
     user_name = db.Column(db.String(), nullable = False, unique = True) 
-    password = db.Column(db.String, nullable = False)
+    _password_hash = db.Column(db.String)
     d_o_b = db.Column(db.String)
 
     
@@ -29,9 +29,18 @@ class User(db.Model, SerializerMixin):
     orders = db.relationship('Order', back_populates = 'user')
     comments = db.relationship('Comment', back_populates = 'user', cascade = 'all, delete-orphan')
 
+    @hybrid_property
+    def password_hash(self):
+        raise AttributeError("Password hash is inacessible!")
 
-    def __repr__(self):
-        return f'<User {self.id}/{self.name}/{self.user_name}/{self.password}/{self.d_o_b}>'
+    @password_hash.setter
+    def password_hash(self, password):
+        password_hash = bcrypt.generate_password_hash(password.encode('utf-8'))
+        self._password_hash = password_hash.decode('utf-8')
+
+    def authenticate(self, password):
+        return bcrypt.check_password_hash(
+            self._password_hash, password.encode('utf-8'))
 
 ##COMMENT##
 class Comment(db.Model, SerializerMixin):
