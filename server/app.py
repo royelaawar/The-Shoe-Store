@@ -37,8 +37,8 @@ def create_user():
     try:
         data = request.json
         new_user = User(
-            name=data.get("name"), 
-            user_name=data.get("user_name"), 
+            name=data.get("username"), 
+            user_name=data.get("username"), 
             d_o_b=data.get("d_o_b")
             )
         new_user.password_hash = data['password']
@@ -53,7 +53,7 @@ def create_user():
 @app.post(URL_PREFIX + '/login')
 def login():
     data = request.json
-    user_name = data.get('user_name')
+    user_name = data.get('username')
     password = data.get('password')
     user = User.query.filter(User.user_name == user_name).first()
     if user:

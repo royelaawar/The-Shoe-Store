@@ -78,6 +78,7 @@
                 "sha256:ff61cca42547795bee8a11319792a8fee6d0f0cd191e831f7f3050c5851fcd8a"
             ],
             "index": "pypi",
+            "markers": "python_version >= '3.8'",
             "version": "==21.0.0"
         },
         "flask": {
@@ -86,6 +87,7 @@
                 "sha256:b9c46cc36662a7949f34b52d8ec7bb59c0d74ba08ba6cb9ce9adc1d8676d9526"
             ],
             "index": "pypi",
+            "markers": "python_version >= '3.7'",
             "version": "==2.2.2"
         },
         "flask-bcrypt": {
@@ -101,7 +103,6 @@
                 "sha256:bc3492bfd6368d27cfe79c7821df5a8a319e1a6d5eab277a3794be19bdc51783",
                 "sha256:f268522fcb2f73e2ecdde1ef45e2fd5c71cc48fe03cffb4b441c6d1b40684eb0"
             ],
-            "index": "pypi",
             "version": "==4.0.0"
         },
         "flask-migrate": {
@@ -110,6 +111,7 @@
                 "sha256:e75a46b657e3062296b9f6e92f31e19662f76cfee8abd6ae94640cbcb79fe016"
             ],
             "index": "pypi",
+            "markers": "python_version >= '3.6'",
             "version": "==4.0.0"
         },
         "flask-restful": {
@@ -126,6 +128,7 @@
                 "sha256:f12c3d4cc5cc7fdcc148b9527ea05671718c3ea45d50c7e732cceb33f574b390"
             ],
             "index": "pypi",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3'",
             "version": "==2.5.1"
         },
         "importlib-metadata": {
@@ -134,6 +137,7 @@
                 "sha256:e354bedeb60efa6affdcc8ae121b73544a7aa74156d047311948f6d711cd378d"
             ],
             "index": "pypi",
+            "markers": "python_version >= '3.7'",
             "version": "==6.0.0"
         },
         "importlib-resources": {
@@ -142,6 +146,7 @@
                 "sha256:ee17ec648f85480d523596ce49eae8ead87d5631ae1551f913c0100b5edd3437"
             ],
             "index": "pypi",
+            "markers": "python_version >= '3.7'",
             "version": "==5.10.0"
         },
         "itsdangerous": {
@@ -308,7 +313,7 @@
                 "sha256:f835c050ebaa4e48b18403bed2c0fda986525896efd76c245bdd4db995e51a4c",
                 "sha256:f8a65990c9c490f4651b5c02abccc9f113a7f56fa482031ac8cb88b70bc8ccaa"
             ],
-            "index": "pypi",
+            "markers": "python_version >= '2.7' and python_version not in '3.0, 3.1, 3.2, 3.3, 3.4, 3.5'",
             "version": "==1.4.49"
         },
         "sqlalchemy-serializer": {
@@ -331,7 +336,7 @@
                 "sha256:935539fa1413afbb9195b24880778422ed620c0fc09670945185cce4d91a8890",
                 "sha256:98c774df2f91b05550078891dee5f0eb0cb797a522c757a2452b9cee5b202330"
             ],
-            "index": "pypi",
+            "markers": "python_version >= '3.8'",
             "version": "==2.3.6"
         },
         "zipp": {
@@ -339,7 +344,7 @@
                 "sha256:0e923e726174922dce09c53c59ad483ff7bbb8e572e00c7f7c46b88556409f31",
                 "sha256:84e64a1c28cf7e91ed2078bb8cc8c259cb19b76942096c8d7b84947690cabaf0"
             ],
-            "markers": "python_version >= '3.8'",
+            "markers": "python_version < '3.10'",
             "version": "==3.17.0"
         }
     },

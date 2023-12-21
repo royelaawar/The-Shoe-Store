@@ -22,7 +22,7 @@ class User(db.Model, SerializerMixin):
     name = db.Column(db.String, nullable = False) 
     user_name = db.Column(db.String(), nullable = False, unique = True) 
     _password_hash = db.Column(db.String)
-    d_o_b = db.Column(db.String)
+    d_o_b = db.Column(db.String, nullable = True)
 
     #relationships/proxies
     products = association_proxy('orders','order_items.product_id')

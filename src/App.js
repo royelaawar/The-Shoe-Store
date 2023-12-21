@@ -1,9 +1,11 @@
 import './App.css';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Navbar from './Components.js/Navbar';
-import Home from './Components.js/Home';
-import Cart from './Components.js/Cart';
-import User from './Components.js/UserProfile';
+import Navbar from './Components/Navbar';
+import Home from './Components/Home';
+import Cart from './Components/Cart';
+import User from './Components/UserProfile';
+import ShoePage from './Components/ShoePage';
+import UserPanel from './Components/UserPanel';
 import { useEffect, useState } from 'react';
 
 //backend vars
@@ -16,7 +18,7 @@ const POST_HEADERS = {
 function App() {
 
   const [shoes, setShoes] = useState([])
-  const [user, setUser] = useState([])
+  const [user, setUser] = useState(null)
 
   //maintains current user session
   useEffect(() => { 
@@ -45,47 +47,55 @@ function App() {
 
 
 // handle signup function (needs formdata set up for input) //
-function handleSignup() {
-  fetch(URL + '/users', {
+async function handleSignup(userInfo) {
+  console.log(userInfo)
+  const res = await fetch(URL + '/users', {
     method: 'POST',
     headers: POST_HEADERS,
-    body: JSON.stringify()
+    body: JSON.stringify(userInfo)
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json(); 
-    } else {
-      throw new Error('Invalid sign up'); 
-    }
-  })
-  .then(data => {
-    setUser(data); 
-  })
-  .catch(error => {
-    alert(error.message); 
-  });
+  if (res.ok) {
+    const data = await res.json()
+    setUser(data)
+  }
+  else {
+    alert('Invalid sign up')
+  }
 }
 
 // handle login function (needs formdata set up for input) //
-function handleLogin() {
-  fetch(URL + '/login', {
+async function handleLogin(userInfo) {
+  const res = await fetch(URL + '/login', {
     method: 'POST',
     headers: POST_HEADERS,
-    body: JSON.stringify()
+    body: JSON.stringify(userInfo)
   })
-  .then(res => {
-    if (res.ok) {
-      return res.json(); 
-    } else {
-      throw new Error('Invalid login'); 
-    }
-  })
-  .then(data => {
-    setUser(data); // Update state with the user data
-  })
-  .catch(error => {
-    alert(error.message); // Alert if there's an error (e.g., invalid login)
-  });
+  if (res.ok) {
+    const data = await res.json()
+    setUser(data)
+  }
+  else {
+    alert('Invalid login')
+  }
+
+  // fetch(URL + '/login', {
+  //   method: 'POST',
+  //   headers: POST_HEADERS,
+  //   body: JSON.stringify()
+  // })
+  // .then(res => {
+  //   if (res.ok) {
+  //     return res.json(); 
+  //   } else {
+  //     throw new Error('Invalid login'); 
+  //   }
+  // })
+  // .then(data => {
+  //   setUser(data); // Update state with the user data
+  // })
+  // .catch(error => {
+  //   alert(error.message); // Alert if there's an error (e.g., invalid login)
+  // });
 }
 
 
@@ -103,8 +113,13 @@ function handleLogin() {
             <div className='content'>
               <Routes>
 
-                <Route path="/" element={<Home shoes={shoes}/>} />
-                <Route path="/shoeProfile" element={<shoeProfile />} />
+                <Route path="/" element={<UserPanel 
+                currentUser={user}
+                attemptLogin={handleLogin}
+                attemptSignup={handleSignup}
+                logout={logout} />}
+                />
+                <Route path="/ShoePage" element={<ShoePage shoes={shoes} />} />
                 <Route path="/userProfile" element={<User user={user} logout={logout} handleLogin={handleLogin} handleSignup={handleSignup}/>} />
                 <Route path="/cart" element={<Cart />} />
 
