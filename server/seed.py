@@ -1,6 +1,7 @@
-from random import randint, choices
-from random import choice as rc
+##standard library imports
+from random import randint, choice
 from datetime import datetime
+import json
 
 ##Remote library imports
 from faker import Faker
@@ -151,7 +152,6 @@ sneaker_types = [
 ]
 
 male_shoe_sizes = [i for i in range(6, 16)]
-
 female_shoe_sizes = [i for i in range(4, 13)]
 
 
@@ -196,7 +196,7 @@ if __name__ == "__main__":
         products_list = []
         used_shoe_names = set()
         for _ in range(20):
-            shoe_choice = rc(product_names)
+            shoe_choice = choice(product_names)
             shoe_brand = shoe_choice.split(" ")[0]
             shoe_name_split = shoe_choice.split(" ")[1::]
             shoe_name = " ".join(shoe_name_split)
@@ -214,12 +214,12 @@ if __name__ == "__main__":
             p = Product(
                 name=shoe_name,
                 brand_name=shoe_brand,
-                category=rc(sneaker_types),
+                category=choice(sneaker_types),
                 description=fake.text(max_nb_chars=30),
                 price=(randint(400, 3500)) / 10.0,
-                meta=None,
-                sizes_in_stock= randint(1,10),
-                picture = 'https://image.goat.com/transform/v1/attachments/product_template_additional_pictures/images/082/754/093/original/1081516_01.jpg.jpeg?action=crop&width=900'
+                meta="None",
+                sizes_in_stock=str(size_list),
+                picture='https://image.goat.com/transform/v1/attachments/product_template_additional_pictures/images/082/754/093/original/1081516_01.jpg.jpeg?action=crop&width=900'
             )
         
             products_list.append(p)
@@ -232,8 +232,8 @@ if __name__ == "__main__":
         comments_list = []
         for _ in range(200):
             c = Comment(content=fake.sentence(), rating=randint(1, 5))
-            c.product = rc(products_list)
-            c.user = rc(users_list)
+            c.product = choice(products_list)
+            c.user = choice(users_list)
             comments_list.append(c)
         db.session.add_all(comments_list)
         db.session.commit()
@@ -241,7 +241,7 @@ if __name__ == "__main__":
         
         orders_list = []
         for _ in range(50):
-            user = rc(users_list)
+            user = choice(users_list)
             o = Order(address=fake.address(), gifted=False, user=user)
             
             # o['order_items']
@@ -252,13 +252,11 @@ if __name__ == "__main__":
 
         order_items_list = []
         for _ in range(150):
-            order = rc(orders_list)
-            product = rc(products_list)
+            order = choice(orders_list)
+            product = choice(products_list)
             price = product.price
             quantity = randint(1,3)
-            oi = Order_Item(quantity=quantity, order=order, product=product, total_price = price * quantity)
-            
-
+            oi = Order_Item(quantity=quantity, order=order, product=product, total_price = (price * quantity))
             order_items_list.append(oi)
         db.session.add_all(order_items_list)
         db.session.commit()

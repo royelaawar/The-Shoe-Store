@@ -1,13 +1,15 @@
 #standard library imports 
-
+import re
 ##remote library imports
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy_serializer import SerializerMixin
-
+from uuid import uuid4
 ##local imports
-from config import db
+from config import db, bcrypt
 
+def get_uuid():
+    return uuid4().hex
 
 
 ##USER##
@@ -17,12 +19,10 @@ class User(db.Model, SerializerMixin):
     
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable = False) 
-    user_name = db.Column(db.String, nullable = False, unique = True) 
+    user_name = db.Column(db.String(), nullable = False, unique = True) 
     password = db.Column(db.String, nullable = False)
     d_o_b = db.Column(db.String)
-    
-    #address?
-    #likes? 
+
     
     products = association_proxy('orders','order_items.product_id')
     #relationships
@@ -61,7 +61,7 @@ class Product(db.Model, SerializerMixin):
     id = db.Column(db.Integer, primary_key = True)
     ##product details
     name = db.Column(db.String, nullable = False, unique = False)
-    brand_name = db.Column(db.String, nullable = False, unique=False) 
+    brand_name = db.Column(db.String, nullable = False) 
     category = db.Column(db.String, nullable = False)
     description = db.Column(db.String, nullable = False)
     price = db.Column(db.Float, nullable = False)
@@ -71,10 +71,10 @@ class Product(db.Model, SerializerMixin):
     
     
     ##availability
-    sizes_in_stock = db.Column(db.Integer, nullable = False)
+    sizes_in_stock = db.Column(db.String, nullable = False)
     in_stock = db.Column(db.Boolean, nullable = False, default = True)
     discounted = db.Column(db.Boolean, nullable = False, default = False)
-    # gender = db.Column(db.String, nullable = False, default = 'Male')
+    
 
     #relationships
     comments = db.relationship('Comment', back_populates = 'product', cascade = 'all, delete-orphan')
@@ -113,10 +113,9 @@ class Order_Item(db.Model, SerializerMixin):
     
 
 ##ORDER##
-class Order(db.Model,SerializerMixin):
+class Order(db.Model, SerializerMixin):
     __tablename__ = 'orders_table'
-    serialize_rules = ('-user.order',)
-    
+    serialize_rules = ('-user.orders','-order_items.order')
     id = db.Column(db.Integer, primary_key = True)
     address = db.Column(db.String, nullable = False)
     gifted = db.Column(db.Boolean, nullable = True, default = False)
@@ -134,4 +133,4 @@ class Order(db.Model,SerializerMixin):
 
     
     def __repr__(self):
-        return f'<Comment {self.id}/{self.address}/{self.user_name}>'
+        return f'<Order {self.id}/{self.user_id}>'
