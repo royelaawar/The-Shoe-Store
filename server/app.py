@@ -87,9 +87,15 @@ def post_comment():
         new_comment.user = current_user()
         db.session.add(new_comment)
         db.session.commit()
-        return make_response(new_comment.to_dict(), 201)
+        return make_response(new_comment.to_dict(rules = comment_rules), 201)
     except Exception as e:
         return make_response({'error': f"{str(e)}"} , 400)
+
+## user session - get user comments (w current_user() helper function)
+@app.get(URL_PREFIX + '/comments')
+def get_user_comments():
+    comments = [c.to_dict(rules = comment_rules) for c in current_user().comments]
+    return make_response(comments, 201)
 
 
 ## MODEL ENDPOINTS: BASIC DB ROUTES (get/patch/post) ##
@@ -167,11 +173,10 @@ def get_user_by_id(id):
         return {"error":f"couldn't find user with id {id}"}, 404
     return make_response(user.to_dict(rules = user_rules), 201)
 
-## comment rts
-@app.get(URL_PREFIX + '/comments')
-def get_comments():
-    comments = [c.to_dict(rules = comment_rules) for c in Comment.query.all()]
-    return make_response(comments,201)
+
+
+
+
 
 ## error handlers: catch errors thrown from @validates and other exceptions
 @app.errorhandler(Exception)
