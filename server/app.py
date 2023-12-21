@@ -91,11 +91,16 @@ def post_comment():
     except Exception as e:
         return make_response({'error': f"{str(e)}"} , 400)
 
-## user session - get user comments (w current_user() helper function)
-@app.get(URL_PREFIX + '/comments')
+## user session - user profile - get user comments (w current_user() helper function)
+@app.get(URL_PREFIX + '/userProfile/comments')
 def get_user_comments():
     comments = [c.to_dict(rules = comment_rules) for c in current_user().comments]
     return make_response(comments, 201)
+## user session - user profile - get user orders (w current_user() helper function)
+@app.get(URL_PREFIX + '/userProfile/orders')
+def get_user_orders():
+    orders = [o.to_dict(rules = order_rules) for o in current_user().orders]
+    return make_response(orders, 201)
 
 
 ## MODEL ENDPOINTS: BASIC DB ROUTES (get/patch/post) ##
