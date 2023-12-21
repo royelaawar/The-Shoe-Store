@@ -191,6 +191,7 @@ if __name__ == "__main__":
         print(u)
         db.session.add_all(users_list)
         db.session.commit()
+        print("seeded users")
 
         products_list = []
         used_shoe_names = set()
@@ -203,7 +204,7 @@ if __name__ == "__main__":
             used_shoe_names.add(shoe_name)
 
             while shoe_name in used_shoe_names:
-                shoe_name += "_new"
+                shoe_name += " "
             branded_shoe = shoe_brand + " " + shoe_name
             size_list = []
             for i in range (randint(1, 10)):
@@ -217,8 +218,8 @@ if __name__ == "__main__":
                 description=fake.text(max_nb_chars=30),
                 price=(randint(400, 3500)) / 10.0,
                 meta=None,
-                    
-                sizes_in_stock= randint(1,10)
+                sizes_in_stock= randint(1,10),
+                picture = 'https://image.goat.com/transform/v1/attachments/product_template_additional_pictures/images/082/754/093/original/1081516_01.jpg.jpeg?action=crop&width=900'
             )
         
             products_list.append(p)
@@ -226,6 +227,7 @@ if __name__ == "__main__":
 
         db.session.add_all(products_list)
         db.session.commit()
+        print("seeded products")
 
         comments_list = []
         for _ in range(200):
@@ -235,6 +237,7 @@ if __name__ == "__main__":
             comments_list.append(c)
         db.session.add_all(comments_list)
         db.session.commit()
+        print("seeded comments")
         
         orders_list = []
         for _ in range(50):
@@ -245,16 +248,20 @@ if __name__ == "__main__":
             orders_list.append(o)
         db.session.add_all(orders_list)
         db.session.commit()
+        print("seeded orders")
 
         order_items_list = []
         for _ in range(150):
             order = rc(orders_list)
             product = rc(products_list)
-            oi = Order_Item(quantity=randint(1, 3), order=order, product=product, total_price = oi.price * oi.quantity)
+            price = product.price
+            quantity = randint(1,3)
+            oi = Order_Item(quantity=quantity, order=order, product=product, total_price = price * quantity)
             
 
             order_items_list.append(oi)
         db.session.add_all(order_items_list)
         db.session.commit()
+        print("seeded order items")
 
     print("done seeding...")

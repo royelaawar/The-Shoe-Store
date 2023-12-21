@@ -66,6 +66,7 @@ class Product(db.Model, SerializerMixin):
     description = db.Column(db.String, nullable = False)
     price = db.Column(db.Float, nullable = False)
     meta = db.Column(db.String, nullable = True, default = None)
+    picture = db.Column(db.String, nullable = False)
     
     
     
@@ -98,7 +99,7 @@ class Order_Item(db.Model, SerializerMixin):
     quantity = db.Column(db.Integer, nullable = False)
     product_id = db.Column(db.Integer, db.ForeignKey('products_table.id'), nullable = False)
     order_id = db.Column(db.Integer, db.ForeignKey('orders_table.id'), nullable=False) 
-    # total_price = db.Column(db.Float, nullable = False)
+    total_price = db.Column(db.Float, nullable = False)
 
     #relationships
     price = association_proxy('product', 'price')
