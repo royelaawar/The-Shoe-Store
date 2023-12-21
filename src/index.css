@@ -1,0 +1,48 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.shoe-preview {
+  padding: 10px 16px;
+  margin: 20px 0;
+  border-bottom: 1px solid white
+}
+
+.shoe-preview:hover {
+  box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
+}
+
+.shoe-list {
+  text-align: left;
+  font-weight: bold;
+  position: absolute; 
+  left: 0; 
+}
+
+.shoe-profile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Adjust as needed */
+/* }
+
+.shoe-image {
+  max-width: 100%; 
+  height: auto;
+  cursor: pointer; /* Changes cursor on hover to indicate image is clickable */
+/* } */
