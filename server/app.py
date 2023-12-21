@@ -27,6 +27,7 @@ product_rules = ("-comments","-order_items","-meta")
 order_rules = ("-order_items","-user")
 user_rules = ("-comments","-orders")
 comment_rules = ("-user","-product")
+order_item_rules = ("-order","-product")
 
 
 ## USER SESSION ENDPOINTS ##
@@ -96,14 +97,25 @@ def post_comment():
 def get_user_comments():
     comments = [c.to_dict(rules = comment_rules) for c in current_user().comments]
     return make_response(comments, 201)
+
 ## user session - user profile - get user orders (w current_user() helper function)
 @app.get(URL_PREFIX + '/userProfile/orders')
 def get_user_orders():
     orders = [o.to_dict(rules = order_rules) for o in current_user().orders]
     return make_response(orders, 201)
 
+## potential method for shoeprofile component, although not sure if necessary
+@app.get(URL_PREFIX + '/shoeProfile')
+def get_shoe_profile():
+    pass
 
-## MODEL ENDPOINTS: BASIC DB ROUTES (get/patch/post) ##
+
+@app.get(URL_PREFIX + '/cart')
+def get_cart():
+    pass
+
+
+## MODEL ENDPOINTS: BASIC db ROUTES (get/patch/post) ##
 @app.route(URL_PREFIX + '/')
 def home():
     return  "The-Shoe-Store API Index"
@@ -179,8 +191,11 @@ def get_user_by_id(id):
     return make_response(user.to_dict(rules = user_rules), 201)
 
 
-
-
+## ORDER ITEMS rts
+@app.get(URL_PREFIX + '/order_items_all')
+def get_all_order_items():
+    order_item = [o.to_dict(rules=order_item_rules) for o in Order_Item.query.all()]
+    return make_response(order_item, 201)
 
 
 ## error handlers: catch errors thrown from @validates and other exceptions
